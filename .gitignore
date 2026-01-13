@@ -205,3 +205,112 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# =========================
+# CUDA / C++ build artifacts
+# =========================
+
+# Object files
+*.o
+*.obj
+*.lo
+
+# CUDA-specific
+*.cubin
+*.ptx
+*.fatbin
+*.gpu
+*.cu.o
+
+# Static and shared libraries
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# Executables
+*.exe
+*.out
+*.app
+
+# =========================
+# Build directories
+# =========================
+
+build/
+bin/
+obj/
+out/
+cmake-build*/
+Debug/
+Release/
+
+# =========================
+# CMake
+# =========================
+
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# =========================
+# NVIDIA / CUDA tools
+# =========================
+
+nvprof.*
+nsys-rep/
+nsys_report.qdrep
+nsys_report.sqlite
+*.qdrep
+*.sqlite
+
+# =========================
+# IDEs and editors
+# =========================
+
+# Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+*.user
+*.filters
+
+# VS Code
+.vscode/
+.history/
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# Eclipse
+.project
+.cproject
+.settings/
+
+# =========================
+# OS-specific
+# =========================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Logs and temporary files
+# =========================
+
+*.log
+*.tmp
+*.swp
+*.swo
+*~
