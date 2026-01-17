@@ -315,4 +315,5 @@ Desktop.ini
 *.swo
 *~
 
-/models/ViTs/Paligemma/paligemma-3b-mix-224/
+/src/models/Paligemma/paligemma-3b-mix-224/
+*.err
