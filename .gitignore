@@ -314,3 +314,5 @@ Desktop.ini
 *.swp
 *.swo
 *~
+
+/models/ViTs/Paligemma/paligemma-3b-mix-224/

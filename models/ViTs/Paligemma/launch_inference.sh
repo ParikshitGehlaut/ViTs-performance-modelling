@@ -1,9 +1,9 @@
 #!/bin/bash
 
-MODEL_PATH="./weights"
+MODEL_PATH="/home/parikshit/ViTs-performance-modelling/models/ViTs/Paligemma/paligemma-3b-mix-224/"
 PROMPT="The name of the tower is "
-IMAGE_FILE_PATH="test_images/pic1.jpg"
-MAX_TOKENS_TO_GENERATE=500
+IMAGE_FILE_PATH="/home/parikshit/ViTs-performance-modelling/models/ViTs/Paligemma/test_images/pic1.jpg"
+MAX_TOKENS_TO_GENERATE=1000
 TEMPERATURE=0.7
 TOP_P=0.9
 DO_SAMPLE="False"
