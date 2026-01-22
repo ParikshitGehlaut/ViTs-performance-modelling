@@ -41,19 +41,17 @@ def main():
     print("[2/4] Isolating Vision Tower (SigLIP)")
     vision_tower = full_model.vision_tower
     
-    # Wrapper to ensure clean Tracing. Even if your local implementation returns
-    # a plain tensor, this makes the script robust.
+    # Wrapper to ensure clean Tracing.
     class VisionWrapper(torch.nn.Module):
         def __init__(self, tower):
             super().__init__()
             self.tower = tower
         
         def forward(self, x):
+            # The local implementation returns a single tensor, so we can directly return it.
+            # The previous wrapper's control flow confused the FX tracer.
             out = self.tower(x)
-            # Handle either a HuggingFace-style object or a plain tensor/tuple
-            if hasattr(out, 'last_hidden_state'):
-                return out.last_hidden_state
-            return out[0] if isinstance(out, tuple) else out
+            return out
 
     model_to_trace = VisionWrapper(vision_tower)
     

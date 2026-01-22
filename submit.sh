@@ -33,6 +33,6 @@ EOF
 cd /export/home/nikhil/parikshit/research/ViTs-performance-modelling
 
 # Run inference with environment Python
-bash src/models/Paligemma/launch_inference.sh
+CUDA_VISIBLE_DEVICES=1 bash src/models/Paligemma/launch_inference.sh
 
 echo "Job finished at $(date)"
