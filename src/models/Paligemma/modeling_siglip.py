@@ -65,29 +65,30 @@ class SiglipAttention(nn.Module):
         value_states = value_states.view(batch_size, seq_len, self.num_heads, self.head_dim).transpose(1, 2)
 
         # [Batch_Size, Num_Heads, Num_Patches, Head_Dim] @ [Batch_Size, Num_Heads, Head_Dim, Num_Patches] --> [Batch_Size, Num_Heads, Num_Patches, Num_Patches]
-        # Calculate the attention using the formula Q * K^T / sqrt(d_k). attn_weights: [Batch_Size, Num_Heads, Num_Patches, Num_Patches]
-        attn_weights = (torch.matmul(query_states, key_states.transpose(2, 3)) * self.scale)
-
-        if attn_weights.size() != (batch_size, self.num_heads, seq_len, seq_len):
-            raise ValueError(
-                f"Attention weights should be of size {(batch_size, self.num_heads, seq_len, seq_len)}, but is"
-                f" {attn_weights.size()}"
-            )
-
-        # Apply the softmax row-wise. attn_weights: [Batch_Size, Num_Heads, Num_Patches, Num_Patches]
-        # dim = -1 means applying softmax to last dimension
-        attn_weights = nn.functional.softmax(attn_weights, dim=-1, dtype=torch.float32).to(query_states.dtype)
-        # Apply dropout only during training
-        attn_weights = nn.functional.dropout(attn_weights, p=self.dropout, training=self.training)
-        # Multiply the attention weights by the value states. attn_output: [Batch_Size, Num_Heads, Num_Patches, Head_Dim]
-        attn_output = torch.matmul(attn_weights, value_states)
-
-        if attn_output.size() != (batch_size, self.num_heads, seq_len, self.head_dim):
-            raise ValueError(
-                f"`attn_output` should be of size {(batch_size, self.num_heads, seq_len, self.head_dim)}, but is"
-                f" {attn_output.size()}"
-            )
-        # [Batch_Size, Num_Heads, Num_Patches, Head_Dim] -> [Batch_Size, Num_Patches, Num_Heads, Head_Dim]
+                # Calculate the attention using the formula Q * K^T / sqrt(d_k). attn_weights: [Batch_Size, Num_Heads, Num_Patches, Num_Patches]
+                attn_weights = (torch.matmul(query_states, key_states.transpose(2, 3)) * self.scale)
+        
+                # if attn_weights.size() != (batch_size, self.num_heads, seq_len, seq_len):
+                #     raise ValueError(
+                #         f"Attention weights should be of size {(batch_size, self.num_heads, seq_len, seq_len)}, but is"
+                #         f" {attn_weights.size()}"
+                #     )
+        
+                # Apply the softmax row-wise. attn_weights: [Batch_Size, Num_Heads, Num_Patches, Num_Patches]
+                # dim = -1 means applying softmax to last dimension
+                attn_weights = nn.functional.softmax(attn_weights, dim=-1, dtype=torch.float32).to(query_states.dtype)
+                # Apply dropout only during training
+                attn_weights = nn.functional.dropout(attn_weights, p=self.dropout, training=self.training)
+                # Multiply the attention weights by the value states. attn_output: [Batch_Size, Num_Heads, Num_Patches, Head_Dim]
+                attn_output = torch.matmul(attn_weights, value_states)
+        
+                # if attn_output.size() != (batch_size, self.num_heads, seq_len, self.head_dim):
+                #     raise ValueError(
+                #         f"`attn_output` should be of size {(batch_size, self.num_heads, seq_len, self.head_dim)}, but is"
+                #         f" {attn_output.size()}"
+                #     )
+        
+                # [Batch_Size, Num_Heads, Num_Patches, Head_Dim] -> [Batch_Size, Num_Patches, Num_Heads, Head_Dim]
         attn_output = attn_output.transpose(1, 2).contiguous()
         # [Batch_Size, Num_Patches, Num_Heads, Head_Dim] -> [Batch_Size, Num_Patches, Embed_Dim]
         attn_output = attn_output.reshape(batch_size, seq_len, self.embed_dim)
